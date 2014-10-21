@@ -1,4 +1,4 @@
-# Contribuye a repo-guidelines ([english](/CONTRIBUTE.md))
+# Contribuye a ckanext-openrefine ([english](/CONTRIBUTE.md))
 
 1. [Involucrarse](#involucrarse)
 2. [Discusión](#discusión)
@@ -9,13 +9,13 @@
 
 
 ## Involucrarse
-Involucrate con el proyecto, ya sea reportando bugs, sugeriendo features o cambios o contribuyendo directamente con el código
+Involucrate con el proyecto, ya sea reportando bugs, sugeriendo features o cambios o contribuyendo directamente con el código.
 
 ## Discusión
-Todas las dicusiones con respecto a este proyecto se encuentran en la secci�n de issues.
+Todas las dicusiones con respecto a este proyecto se encuentran en la sección de issues.
 
 ## Acerca de los pull requests
-Nosotros usamos la guía de contribució de CKAN para este repositorio.
+Nosotros usamos la guía de contribución de CKAN para este repositorio.
 
 ## Acerca de los autores y contribuidores
 
@@ -24,7 +24,7 @@ Autores son contribuidores que tuvieron la idea original y en general
 son responsables de los commits iniciales.
 
 ### Contribuidores
-Personas que han contribuido con cambios de código,
+Personas que han contribuido con cambios de código.
 documentación o arreglos de bugs al proyecto, sólo al
 presentar un pull request. Deben de ser ordenados por su
 fecha inicial de contribución en el archivo [CONTRIBUTORS.md](/CONTRIBUTORS.md).
