@@ -71,3 +71,159 @@ index 0000000..e5dcd0e
 -- 
 1.9.1
 
+From 3d92af14f7837b1e15428272ec9312097382f6c1 Mon Sep 17 00:00:00 2001
+From: Miguel Angel Gordian <os.aioria@gmail.com>
+Date: Sun, 26 Oct 2014 02:12:04 -0600
+Subject: [PATCH 1/2] WIP: Create JobId from URLQuery in the view index.vt
+
+---
+ webapp/modules/core/index.vt                       |  1 +
+ .../core/scripts/index/getResourceasParameter.js   | 42 ++++++++++++++++++++++
+ 2 files changed, 43 insertions(+)
+ create mode 100644 webapp/modules/core/scripts/index/getResourceasParameter.js
+
+diff --git a/webapp/modules/core/index.vt b/webapp/modules/core/index.vt
+index 00191c7..445258b 100644
+--- a/webapp/modules/core/index.vt
++++ b/webapp/modules/core/index.vt
+@@ -72,5 +72,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+     If you have no data to work with, try these
+     <a href="http://code.google.com/p/google-refine/wiki/SampleDatasets" target="_blank">sample data sets</a>.
+   </div>
++  <script type="text/javascript" src="/scripts/index/getResourceasParameter.js"></script>
+ </body>
+ </html>
+diff --git a/webapp/modules/core/scripts/index/getResourceasParameter.js b/webapp/modules/core/scripts/index/getResourceasParameter.js
+new file mode 100644
+index 0000000..e5dcd0e
+--- /dev/null
++++ b/webapp/modules/core/scripts/index/getResourceasParameter.js
+@@ -0,0 +1,42 @@
++function sleep(mls, callback) {
++  setTimeout(callback, mls);
++}
++
++function setResource (element, resource) {
++  console.log("This is the element " + element);
++  return function () {
++    element = $("#create-project-ui-source-selection-tabs").children()[2];
++    console.log("Activate Web address div");
++    element.click();
++    console.log("Set resource on download");
++    $("input[name='download']").val(resource);
++    $("button[bind='nextButton']")[1].click();
++  };
++}
++
++function getResource() {
++/*    var plain_query = window.location.search.substring(1);
++    var query = get_query_as_json(plain_query);
++
++    if (query["resource"] && validUrl(query["resource"])) {
++      console.log("I get a parameter resource: " + query[resource]);
++    }  
++*/
++    return "http://datos.sedesol.gob.mx/padronbeneficiarios/140930/sp/2_DirectorioSucursales.CSV";
++}
++
++function viewElement() {
++  var elem = $("#create-project-ui-source-selection-tabs").children()[2];
++  if ( elem === undefined){
++    sleep(500, viewElement);
++    console.log("Element doesn't exist!");
++  }
++  else{
++    setResource($("#create-project-ui-source-selection-tabs").children()[2], getResource())();
++    console.log("Element finded");
++  }
++}
++
++$("#create-project-ui-source-selection-tabs").ready(viewElement);
++/*(setq-default indent-tabs-mode nil)
++(setq-default tab-width 2)*/
+-- 
+1.9.1
+
+
+From ce1bfdcd3b726f5dccfa7b7f0351de27d9a4f90f Mon Sep 17 00:00:00 2001
+From: Miguel Angel Gordian <os.aioria@gmail.com>
+Date: Mon, 27 Oct 2014 01:15:41 -0600
+Subject: [PATCH 2/2] Create JobId from URLQuery in the view index.vt
+
+---
+ .../core/scripts/index/getResourceasParameter.js   | 54 +++++++++++++++-------
+ 1 file changed, 37 insertions(+), 17 deletions(-)
+
+diff --git a/webapp/modules/core/scripts/index/getResourceasParameter.js b/webapp/modules/core/scripts/index/getResourceasParameter.js
+index e5dcd0e..677e683 100644
+--- a/webapp/modules/core/scripts/index/getResourceasParameter.js
++++ b/webapp/modules/core/scripts/index/getResourceasParameter.js
+@@ -15,28 +15,48 @@ function setResource (element, resource) {
+ }
+ 
+ function getResource() {
+-/*    var plain_query = window.location.search.substring(1);
++    var plain_query = window.location.search.substring(1);
+     var query = get_query_as_json(plain_query);
+-
+     if (query["resource"] && validUrl(query["resource"])) {
+-      console.log("I get a parameter resource: " + query[resource]);
+-    }  
+-*/
+-    return "http://datos.sedesol.gob.mx/padronbeneficiarios/140930/sp/2_DirectorioSucursales.CSV";
++      return  query["resource"];
++    }
++
++   return null;
+ }
+ 
+-function viewElement() {
+-  var elem = $("#create-project-ui-source-selection-tabs").children()[2];
+-  if ( elem === undefined){
+-    sleep(500, viewElement);
+-    console.log("Element doesn't exist!");
++function validUrl(url) {
++     return url.match(/^(ht|f)tps?:\/\/[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?/) != null ? true : false;
++}
++
++function get_query_as_json(plain_query) {
++  var assig =  plain_query.split("&");
++  var dict = {}
++
++  if (assig.length > 0) {
++    for (i in assig) {
++      var dictElem = assig[i].split("=");
++      if (dictElem.length == 2) dict[dictElem[0]] = decodeURIComponent(dictElem[1].replace(/\+/g, " "));
++    }
+   }
+-  else{
+-    setResource($("#create-project-ui-source-selection-tabs").children()[2], getResource())();
+-    console.log("Element finded");
++
++  return dict;
++}
++
++function viewElement(resource) {
++  function inner() {
++    var elem = $("#create-project-ui-source-selection-tabs").children()[2];
++    if ( elem === undefined){
++      sleep(500, inner);
++    }
++    else{
++      setResource($("#create-project-ui-source-selection-tabs").children()[2], resource)();
++
++    }
+   }
++  return inner;
+ }
+ 
+-$("#create-project-ui-source-selection-tabs").ready(viewElement);
+-/*(setq-default indent-tabs-mode nil)
+-(setq-default tab-width 2)*/
++var resource = getResource();
++
++if (resource !== "" && resource != null && resource !== undefined) 
++  $("#create-project-ui-source-selection-tabs").ready(viewElement(resource));
+-- 
+1.9.1
+
