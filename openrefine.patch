@@ -48,7 +48,7 @@ index 0000000..e5dcd0e
 +
 +    if (query["resource"] && validUrl(query["resource"])) {
 +      console.log("I get a parameter resource: " + query[resource]);
-+    }  
++    }
 +*/
 +    return "http://datos.sedesol.gob.mx/padronbeneficiarios/140930/sp/2_DirectorioSucursales.CSV";
 +}
@@ -121,7 +121,7 @@ index 0000000..e5dcd0e
 +
 +    if (query["resource"] && validUrl(query["resource"])) {
 +      console.log("I get a parameter resource: " + query[resource]);
-+    }  
++    }
 +*/
 +    return "http://datos.sedesol.gob.mx/padronbeneficiarios/140930/sp/2_DirectorioSucursales.CSV";
 +}

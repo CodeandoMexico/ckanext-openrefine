@@ -3,5 +3,6 @@ $(document).ready(function () {
   $("#openrefine").click(function () {
     console.log("abriendo");
     window.open($("#openrefine").attr("url"));
+    $("#example").modal("hide");
   });
 });
