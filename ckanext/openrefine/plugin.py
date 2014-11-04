@@ -6,3 +6,5 @@ class OpenRefinePlugin(plugins.SingletonPlugin):
 
     def update_config(self, config):
         toolkit.add_template_directory(config, 'templates')
+
+        toolkit.add_resource('fanstatic', 'openrefine')

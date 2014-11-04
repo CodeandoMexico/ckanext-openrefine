@@ -5,8 +5,29 @@
 
 {% block resource_actions_inner %}
   {% if res.url %}
-    <li>
-     <a  class="btn btn-warning" href="{{openrefine}}?resource={{res.url}}">
+<div id="example" class="modal hide fade in" style="display: none; ">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">x</a>
+    <h3>Refinadora de datos</h3>
+  </div>  
+  <div class="modal-body">
+    <h4></h4>
+    <p>La refinadora se abrira una nueva pesta&ntilde;a</p>
+  </div>  
+  <div class="modal-footer">
+     <a id="openrefine" url="{{openrefine}}?resource={{res.url}}" class="btn btn-success">Ok</a>
+     <a href="#" class="btn" data-dismiss="modal">Cancelar</a>
+  </div>
+</div>
+<style>
+.modal-backdrop {
+  z-index: -1;
+}   
+</style>
+
+{% resource 'openrefine/modal.js' %}
+<li>
+     <a  class="btn btn-warning" url="{{openrefine}}?resource={{res.url}}" data-toggle="modal" href="#example">
         <i class="icon-edit"></i>Open Refine
      </a>
     </li>
